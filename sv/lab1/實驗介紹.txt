@@ -1,0 +1,16 @@
+使用SymtemVerilog來修改lab0，完成下列驗證環境：
+tb0
+將tb0.v修改成tb0.sv確定仿真結果一致
+tb1
+將測試環境原先信號變量類型reg、wire修改為logic類型，再編譯仿真，確定仿真結果一致
+tb2
+在測試環境將兩個initial塊中分別調用產生時鐘和復位的task clk_gen() 及rstn_gen()，
+並使clk_gen() 為可以設置時鐘週期的任務。 
+tb3
+在三個channel裡，對每個slave的數據發出100個數據，先創建動態數組來生成數據，分別將它們讀取並發送給三個channel。
+tb4
+創建模塊chnl_initiator，用扮演每個channel_slave通道對應的stimulator，發送激勵，在其內部定義了三個方法，
+即set_ name()、chnl_write()和chnl_idle()。 chnl_idle() 要實現的一個時鐘週期的空閒週期，在該週期中，valid 
+應為低，data 應為 0，chnl_ write()實現一次有效的寫數據，並隨後調用 chnl_idle()，實現一個空閒週期，
+只有當valid為高且ready為高時，數據寫入才算成功，如果此時ready為低，那麼則會保持數據和valid信號，
+直到 ready 拉高時，數據寫入才算成功。

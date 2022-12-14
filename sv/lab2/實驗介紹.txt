@@ -1,0 +1,21 @@
+繼承lab1的程式碼來修改MCDT的驗證環境
+tb1：
+以interface(接口)代替信號線將各個模塊連接起來，並在接口內置一clocking，用clocking塊的時鐘來驅動電路。
+在chnl_initiator模塊加入set_idle_cycles方法，來修改空閒週期次數
+tb2：
+以fork-join 來實現三個 chnl_initiator 同時發送數據的要求。 
+創建task basic test()，使得每個chnl_initiator發送100個數據，且每個idle_ cycles 設置為1~3的隨機次數 。
+創建task burst test()，使得每個chnl_initiator發送500個數據，且idle_ cycles 設置為 0。
+創建task fifo. Full test()，其要求為無論採取什麼數值的idle_cycles， 也無論發送多少個數據，
+只要各個chnl initiator 不停發送使得對應的channel緩存變為滿時(ready拉低)，那麼可以在三個channel都拉低過 
+ready ，便可以立即結束測試。
+tb3：
+開始使用類型(class)，將之前用來驗證的硬體(module) 中的數據和內容移植到軟體(class) 中。
+將之前實驗的module chnl_initiator和module chnl_generator分別改造為class chnl_initiator和class chnl_generator。
+定義了一個用來封裝發送數據的類型chnl_trans。
+tb4：
+引入新的類型 chnl _agent、chnl_root_test。
+將所有類型封裝到package chnl_pkg 中且完成編譯，編譯後的chnl _pkg會被默認編譯到work庫中，與其它的module是一同
+並列放置。chnl_agent 包括generator 、driver(initiator)，並將它們在 agent 中例化，並在chnl_root_test例化， 
+chnl_root_test時線傳送數據的基本功能。創建chnl_root_test的子類，chnl_basic_test、chnl_burst_test 和 
+chnl_fifo_full_test來修改測試環境的數據量及idle_cycles。 

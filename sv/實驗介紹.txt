@@ -1,0 +1,2 @@
+先將mcdf的暫存器和整形器模塊去掉，得到多通道資料收發器Multi-Channel Data Transceiver(mcdt)，並以verilog來建構，
+用三個channel來發送資料，並根據仲裁器，來輸出通道的資料，以及此資料屬於第幾個通道。

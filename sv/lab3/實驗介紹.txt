@@ -1,0 +1,21 @@
+繼承lab2的程式碼來修改MCDT的驗證環境
+tb1：
+將數據類型chnl_trans內的數據，聲明為隨機變量，並設定約束
+以mailbox建立req_mb 、rsp_mb 來作為generator和initiator之間傳送數據的方法，並根據reques和response建立交握機制，
+確定數據傳送正確。在仿真器命令行處使用命令"vsim -voptargs=+acc -solvefaildebug -sv_seed 0 work.tb1"來加載仿真。 
+-solvefaildebug是為了調試隨機變量的，而-SV seed number是為了傳遞隨機化的種子，使用同個numbe的種子，會令仿真結果
+一致，使每次隨機化的數據都會一樣。 由於generator會先例化一個chnl_trans ，放入req_mb ，並在交握過程中再複製
+並建立一個chnl_trans ，置於req_mb中。每個channel發送200筆資料，共有三個channel，因此總共產生1200次的chnl_trans。
+
+tb2：
+將 generator搬移到root_ test層次中，方便 generator與agent中的initiator的數據通信。 
+在root_ test中的do_ config對 generator進行隨機化控制，並用斷言判斷generator是否隨機化成功。
+在命令窗口中添加額外的命令“vsim -voptargs=+acc -solvefaildebug +TESTNAME =chnl_basic_test -sv_seed random work.tb2”
+將三種驗證測試放入tb2裡面,通過仿真參數+TESTNAME，使得我們不需要作重複的編譯。
+
+tb3：
+加入monitor 和checker來構成最終用來測試MCDT的驗證環境，在chnl_monitor和mcdt_monitor類型各自的 mon_trans()方法中採集數據
+並寫入 mailbox 緩存;在chnl_checker的任務do_compare()中，需從checker自己的mailbox中分別取得一個輸出端的採集數據和一個輸入
+端的採集數據來做比較，輸出端的緩存只有一個，而輸入端的緩存有三個，要判斷從哪個輸入端獲取數據與輸出端緩存的數據進行比對。
+
+
