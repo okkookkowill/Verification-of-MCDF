@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-`include "param_def.v"
+`include "param_def.v" 
 
 interface chnl_intf(input clk, input rstn);
   logic [31:0] ch_data;

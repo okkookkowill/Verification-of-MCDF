@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns/1ps 
 
 interface chnl_intf(input clk, input rstn);
   logic [31:0] ch_data;
